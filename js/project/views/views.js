@@ -56,7 +56,19 @@ APP.FieldView = Backbone.View.extend({
     };
 
     return this;
-  }  
+  },
+
+  events:{
+    'click .cell' : 'clickHandler'
+  },    
+
+  clickHandler: function(event) {
+    var targetElem = event.target || event.srcElement,
+        xCoord = $(targetElem).attr('data-x-coord'),
+        yCoord = $(targetElem).attr('data-y-coord');
+
+    console.log(xCoord, yCoord);
+  }
 
 });
 
@@ -73,6 +85,8 @@ APP.CellView = Backbone.View.extend({
 
   render: function () {    
     this.$el.addClass(this._markDefine());
+    this.$el.attr('data-x-coord', this.model.get('xCoord'));
+    this.$el.attr('data-y-coord', this.model.get('yCoord'));
     this.$el.html(this.template());  
 
     return this;
