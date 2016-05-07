@@ -3,8 +3,8 @@
 <script src="js/underscore-min.js"></script>
 <script src="js/backbone-min.js"></script>
 
-<script src="js/project/collections/collections.js"></script> 
 <script src="js/project/models/models.js"></script> 
+<script src="js/project/collections/collections.js"></script> 
 <script src="js/project/views/views.js"></script> 
 
 <script>

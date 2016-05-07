@@ -1,13 +1,41 @@
 window.APP = window.APP || {};
 
-APP.CalcModel = Backbone.Model.extend({
+APP.CellModel = Backbone.Model.extend({
+
+  defaults: {
+    xCoord: undefined,
+    yCoord: undefined,
+    value: 0,
+  }        
+
+});
+
+
+APP.FieldModel = Backbone.Model.extend({
+
   defaults: {
 
-  }, 
+  }        
 
-  validate: function(attrs) {     
+});
 
-  }           
+
+APP.PlayerModel = Backbone.Model.extend({
+  
+  defaults: {
+    score: 0,
+    mark: 1
+  }        
+
+});
+
+
+APP.CompPlayerModel = Backbone.Model.extend({
+  
+  defaults: {
+    score: 0,
+    mark: -1
+  }        
 
 });
 
