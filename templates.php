@@ -24,3 +24,7 @@
   </div>      
 </script>
 
+
+<script type="text/template" id="cellTpl">
+  cell   
+</script>
