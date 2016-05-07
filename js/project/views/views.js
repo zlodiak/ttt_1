@@ -72,8 +72,22 @@ APP.CellView = Backbone.View.extend({
   template: _.template($('#cellTpl').html()),
 
   render: function () {    
+    this.$el.addClass(this._markDefine());
     this.$el.html(this.template());  
+
     return this;
+  },
+
+  _markDefine: function () {    
+    var cellMark;
+
+    if(this.model.get('mark') == -1) {
+      cellMark = 'zero_mark';
+    } else if(this.model.get('mark') == 1) {
+      cellMark = 'cross_mark';
+    };
+
+    return cellMark;
   }
 
 });

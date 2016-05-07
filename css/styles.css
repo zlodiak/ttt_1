@@ -23,8 +23,34 @@ INFO:
 
 
 /****************************************************************************** GLOBAL_layout */
+.ttt{
+	width: 300px;
+	margin: 20px auto;
+}
 
 
 
+/****************************************************************************** GLOBAL_blocks: field */
+.field{
+	position: relative;
+	background: #fff;
+	margin-bottom: 20px;
+}
 
-/****************************************************************************** GLOBAL_blocks: payment_modal */
+.cell{
+	float: left;
+	width: 100px;
+	height: 100px;
+	border: 1px solid #000;
+	overflow: hidden;
+}
+
+.zero_mark{
+	background: url('../images/zero.png') center center no-repeat;
+	background-size: cover;
+}
+
+.cross_mark{
+	background: url('../images/cross.png') center center no-repeat;
+	background-size: cover;
+}
