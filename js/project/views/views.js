@@ -1,8 +1,6 @@
 APP.TttView = Backbone.View.extend({  
 
   initialize: function() {   
-    //this.ttt = new APP.PlayerModel();
-    //this.ttt = new APP.CompPlayerModel();
     this.fieldView = new APP.FieldView();
 
     this.stepsCollection = [];
@@ -17,15 +15,6 @@ APP.TttView = Backbone.View.extend({
     this.$el.html(this.template());  
     this.$el.find('#fieldContainer').html(this.fieldView.render().el);  
     return this;
-  },
-
-  compStep: function () { 
-    var emptyCells = this.fieldView.cellCollection.where({mark: 0}),
-        randCell = APP.helper.randomIntFromZero(emptyCells.length);
-
-    console.log(this.stepNum, app.stepsCollection);
-
-    //emptyCells[randCell].set({mark: -1});
   }
 
 
@@ -81,10 +70,6 @@ APP.FieldView = Backbone.View.extend({
 
 APP.CellView = Backbone.View.extend({  
 
-  initialize: function() {   
-    this.listenTo(this.model, 'change', this.nextStep);
-  }, 
-
   className: 'cell',   
 
   render: function () {    
@@ -106,33 +91,7 @@ APP.CellView = Backbone.View.extend({
     };
 
     return cellMark;
-  },
-
-  events:{
-    'click' : 'clickHandler'
-  },    
-
-  clickHandler: function(event) { 
-    var mark = this.model.get('mark');
-
-    if(mark == 0) {
-      this.model.set({mark: 1});
-    } else {
-      console.log('err')
-    };
-  },
-
-  nextStep: function(event) { 
-    app.stepNum++;
-    app.stepsCollection.push({
-      num: app.stepNum, 
-      mark: 1, 
-      xCoord: this.model.get('xCoord'),
-      yCoord: this.model.get('yCoord')
-    });
-    this.render();
-    app.compStep();
-  }  
+  }
 
 });
 
