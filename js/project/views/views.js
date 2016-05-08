@@ -5,6 +5,7 @@ APP.TttView = Backbone.View.extend({
     //this.ttt = new APP.CompPlayerModel();
     this.fieldView = new APP.FieldView();
 
+
     this.render();
   },    
 
@@ -14,6 +15,12 @@ APP.TttView = Backbone.View.extend({
     this.$el.html(this.template());  
     this.$el.find('#fieldContainer').html(this.fieldView.render().el);  
     return this;
+  },
+
+  compStep: function () { 
+    var emptyCells = this.fieldView.cellCollection.where({mark: 0});
+
+    console.log(emptyCells);
   }
 
 });
@@ -26,6 +33,7 @@ APP.FieldView = Backbone.View.extend({
   id: 'field',
 
   initialize: function() {   
+    this.cellCollection = new APP.CellCollection();
     this.cellsViewsArr = [];
 
     for(var y = 0; y < 3; y++) {
@@ -38,6 +46,7 @@ APP.FieldView = Backbone.View.extend({
         });
 
         this.cellsViewsArr[y][x] = new APP.CellView({model: cellModel});
+        this.cellCollection.add(cellModel);
       };
     };
   },    
@@ -56,19 +65,9 @@ APP.FieldView = Backbone.View.extend({
     };
 
     return this;
-  },
-
-  events:{
-    'click .cell' : 'clickHandler'
-  },    
-
-  clickHandler: function(event) {
-    var targetElem = event.target || event.srcElement,
-        xCoord = $(targetElem).attr('data-x-coord'),
-        yCoord = $(targetElem).attr('data-y-coord');
-
-    console.log(xCoord, yCoord);
   }
+
+
 
 });
 
@@ -76,18 +75,18 @@ APP.FieldView = Backbone.View.extend({
 APP.CellView = Backbone.View.extend({  
 
   initialize: function() {   
-
+    this.listenTo(this.model, 'change', this.nextStep);
   }, 
 
   className: 'cell',   
 
-  template: _.template($('#cellTpl').html()),
+  // template: _.template($('#cellTpl').html()),
 
   render: function () {    
     this.$el.addClass(this._markDefine());
     this.$el.attr('data-x-coord', this.model.get('xCoord'));
     this.$el.attr('data-y-coord', this.model.get('yCoord'));
-    this.$el.html(this.template());  
+    this.$el.html();  
 
     return this;
   },
@@ -102,7 +101,31 @@ APP.CellView = Backbone.View.extend({
     };
 
     return cellMark;
-  }
+  },
+
+  events:{
+    'click' : 'clickHandler'
+  },    
+
+  clickHandler: function(event) { 
+    var xCoord = this.model.get('xCoord'),
+        yCoord = this.model.get('yCoord'),
+        mark = this.model.get('mark');
+
+    console.log(xCoord, yCoord);
+
+    if(mark == 0) {
+      this.model.set({mark: 1});
+      console.log(this.model);
+    } else {
+      console.log('err')
+    };
+  },
+
+  nextStep: function(event) { 
+    this.render();
+    app.compStep();
+  }  
 
 });
 
