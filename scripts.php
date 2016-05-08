@@ -6,6 +6,7 @@
 <script src="js/project/models/models.js"></script> 
 <script src="js/project/collections/collections.js"></script> 
 <script src="js/project/views/views.js"></script> 
+<script src="js/project/helper.js"></script> 
 
 <script>
   var app = new APP.TttView({el: '#ttt'});
