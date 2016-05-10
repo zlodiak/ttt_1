@@ -23,24 +23,35 @@ APP.TttView = Backbone.View.extend({
 
   clickHandler: function(event) { 
     event = event || window.event;
+
     var cellElem = event.target || event.srcElement,
         idModel = parseInt($(cellElem).attr('data-id-model')),
         cellModel = this.fieldView.cellCollection.where({idModel: idModel})[0],
         cellXcoord = cellModel.get('xCoord'),
         cellYcoord = cellModel.get('yCoord'),
-        cellMark = cellModel.get('mark');
-
-    console.log(this.fieldView.cellCollection.where({idModel: idModel}));
+        cellMark = cellModel.get('mark'),
+        cellView = this.fieldView.cellsViewsArr[cellYcoord][cellXcoord];
 
     if(cellMark == 0) {
       cellModel.set({mark: 1});
-      this.fieldView.cellsViewsArr[cellYcoord][cellXcoord].render();
+      cellView.render();
+
+      this.stepsCollection.push({
+        num: this.stepNum++,
+        xCoord: cellXcoord,
+        yCoord: cellYcoord,
+        mark: cellYcoord,
+      });
+
+      this.compStep();
     } else {
       console.log('err')
     };
   },
 
+  compStep: function() {  console.log('cs', this.stepsCollection)
 
+  }
 
 });
 

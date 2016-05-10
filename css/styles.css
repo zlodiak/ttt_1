@@ -43,6 +43,7 @@ INFO:
 	height: 100px;
 	border: 1px solid #000;
 	overflow: hidden;
+	cursor: pointer;
 }
 
 .zero_mark{
