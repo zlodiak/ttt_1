@@ -1,1 +1,3 @@
-live page: http://prozaik.16mb.com/works/weekend_projects/ttt/1/
+live page: http://fh79272k.bget.ru/files/works/tic_tac_toe/1/ 
+
+simply tic tac toe game without levels and score

@@ -77,13 +77,11 @@ APP.TttView = Backbone.View.extend({
 
     if(this.fieldView.checkCellLines(mark) == APP.playerMark) {
       msg = 'Вы выиграли';
-    };
-
-    if(this.fieldView.checkCellLines(mark) == APP.compMark) {
+    } 
+    else if(this.fieldView.checkCellLines(mark) == APP.compMark) {
       msg = 'Вы проиграли';
-    };  
-
-    if(this.stepsCollection.length >= 9) {
+    } 
+    else if(this.stepsCollection.length >= 9) {
       msg = 'Ничья';
     };  
 
