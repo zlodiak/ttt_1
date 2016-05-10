@@ -15,7 +15,25 @@ APP.TttView = Backbone.View.extend({
     this.$el.html(this.template());  
     this.$el.find('#fieldContainer').html(this.fieldView.render().el);  
     return this;
-  }
+  },  
+
+  events:{
+    'click' : 'clickHandler'
+  },    
+
+  clickHandler: function(event) { 
+    event = event || window.event;
+    var cellElem = event.target || event.srcElement,
+    mark = $(cellElem).attr('data-mark');
+
+    console.log(mark);
+
+    if(mark == 0) {
+      this.model.set({mark: 1});
+    } else {
+      console.log('err')
+    };
+  },
 
 
 
@@ -28,7 +46,9 @@ APP.FieldView = Backbone.View.extend({
 
   id: 'field',
 
-  initialize: function() {   
+  initialize: function() {
+    var idModel = 0;
+
     this.cellCollection = new APP.CellCollection();
     this.cellsViewsArr = [];
 
@@ -38,8 +58,11 @@ APP.FieldView = Backbone.View.extend({
       for(var x = 0; x < 3; x++) {
         var cellModel = new APP.CellModel({
           xCoord: x,
-          yCoord: y
+          yCoord: y,
+          idModel: idModel
         });
+
+        idModel++;
 
         this.cellsViewsArr[y][x] = new APP.CellView({model: cellModel});
         this.cellCollection.add(cellModel);
@@ -72,10 +95,9 @@ APP.CellView = Backbone.View.extend({
 
   className: 'cell',   
 
-  render: function () {    
+  render: function () {    console.log(this.model)
     this.$el.addClass(this._markDefine());
-    this.$el.attr('data-x-coord', this.model.get('xCoord'));
-    this.$el.attr('data-y-coord', this.model.get('yCoord'));
+    this.$el.attr('data-id-model', this.model.get('idModel'));
     this.$el.html();  
 
     return this;
