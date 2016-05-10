@@ -4,9 +4,7 @@ APP.TttView = Backbone.View.extend({
     this.fieldView = new APP.FieldView();
 
     this.stepsCollection = [];
-    this.stepNum = 0;    
-    APP.playerMark = 1;    
-    APP.compMark = -1;    
+    this.stepNum = 0;     
 
     this.render();
   },    
@@ -20,10 +18,10 @@ APP.TttView = Backbone.View.extend({
   },  
 
   events:{
-    'click' : 'clickHandler'
+    'click' : 'playerStep'
   },    
 
-  clickHandler: function(event) { 
+  playerStep: function(event) { 
     event = event || window.event;
 
     var cellElem = event.target || event.srcElement,
@@ -40,9 +38,13 @@ APP.TttView = Backbone.View.extend({
 
       this.addStep(APP.playerMark, cellXcoord, cellYcoord);
 
-      this.compStep();
+      if(this.fieldView.checkCellLines(APP.playerMark) == APP.playerMark) {
+        this.stopGame('Вы выиграли');
+      } else { 
+        this.compStep(); 
+      };            
     } else {
-      console.log('err')
+      console.log('глаза протри и смотри куда ходишь')
     };
   },
 
@@ -61,18 +63,24 @@ APP.TttView = Backbone.View.extend({
 
     emptyCellModel.set({mark: APP.compMark});
     emptyCellView.render();
-       
+
+      if(this.fieldView.checkCellLines(APP.compMark) == APP.compMark) {
+        this.stopGame('Вы проиграли');
+      }     
   },
 
-  addStep: function(playerMark, xCoord, yCoord) {  
+  addStep: function(mark, xCoord, yCoord) {  
     this.stepsCollection.push({
       num: this.stepNum++,
       xCoord: xCoord,
       yCoord: yCoord,
-      mark: playerMark,
+      mark: mark,
     }); 
+  },
 
-    //console.log(this.stepsCollection);
+  stopGame: function(msg) { 
+    alert(msg);
+    window.location.reload();
   }
 
 });
@@ -122,9 +130,49 @@ APP.FieldView = Backbone.View.extend({
     };
 
     return this;
+  },
+
+  checkCellLines: function(mark) {  //console.log(this.cellsViewsArr)
+    var winnerMark = undefined;
+
+    // check diagonal rt-lb
+    if( (this.cellsViewsArr[0][0].model.get('mark') == mark) && 
+        (this.cellsViewsArr[1][1].model.get('mark') == mark) && 
+        (this.cellsViewsArr[2][2].model.get('mark') == mark)
+    ) {
+      winnerMark = mark;
+    };
+
+    // check diagonal lt-rb
+    if( (this.cellsViewsArr[0][2].model.get('mark') == mark) && 
+        (this.cellsViewsArr[1][1].model.get('mark') == mark) && 
+        (this.cellsViewsArr[2][0].model.get('mark') == mark)
+    ) {
+      winnerMark = mark;
+    };   
+
+    // check horizontals
+    for(var yCoord = 0; yCoord <= 2; yCoord++) { 
+      if( (this.cellsViewsArr[yCoord][0].model.get('mark') == mark) && 
+          (this.cellsViewsArr[yCoord][1].model.get('mark') == mark) && 
+          (this.cellsViewsArr[yCoord][2].model.get('mark') == mark)
+      ) {
+        winnerMark = mark;
+      };
+    };   
+
+    // check verticals  
+    for(var xCoord = 0; xCoord <= 2; xCoord++) { 
+      if( (this.cellsViewsArr[0][xCoord].model.get('mark') == mark) && 
+          (this.cellsViewsArr[1][xCoord].model.get('mark') == mark) && 
+          (this.cellsViewsArr[2][xCoord].model.get('mark') == mark)
+      ) {
+        winnerMark = mark;
+      };
+    };  
+
+    return winnerMark;
   }
-
-
 
 });
 

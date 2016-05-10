@@ -1,5 +1,3 @@
-window.APP = window.APP || {};
-
 APP.CellModel = Backbone.Model.extend({
 
   defaults: {
