@@ -24,12 +24,17 @@ APP.TttView = Backbone.View.extend({
   clickHandler: function(event) { 
     event = event || window.event;
     var cellElem = event.target || event.srcElement,
-    mark = $(cellElem).attr('data-mark');
+        idModel = parseInt($(cellElem).attr('data-id-model')),
+        cellModel = this.fieldView.cellCollection.where({idModel: idModel})[0],
+        cellXcoord = cellModel.get('xCoord'),
+        cellYcoord = cellModel.get('yCoord'),
+        cellMark = cellModel.get('mark');
 
-    console.log(mark);
+    console.log(this.fieldView.cellCollection.where({idModel: idModel}));
 
-    if(mark == 0) {
-      this.model.set({mark: 1});
+    if(cellMark == 0) {
+      cellModel.set({mark: 1});
+      this.fieldView.cellsViewsArr[cellYcoord][cellXcoord].render();
     } else {
       console.log('err')
     };
@@ -95,7 +100,7 @@ APP.CellView = Backbone.View.extend({
 
   className: 'cell',   
 
-  render: function () {    console.log(this.model)
+  render: function () {    
     this.$el.addClass(this._markDefine());
     this.$el.attr('data-id-model', this.model.get('idModel'));
     this.$el.html();  

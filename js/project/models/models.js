@@ -5,7 +5,7 @@ APP.CellModel = Backbone.Model.extend({
   defaults: {
     xCoord: undefined,
     yCoord: undefined,
-    mark: ,
+    mark: 0,
   }        
 
 });
