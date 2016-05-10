@@ -40,6 +40,8 @@ APP.TttView = Backbone.View.extend({
 
       if(this.fieldView.checkCellLines(APP.playerMark) == APP.playerMark) {
         this.stopGame('Вы выиграли');
+      } else if(this.stepsCollection.length >= 9) {
+        this.stopGame('Ничья');
       } else { 
         this.compStep(); 
       };            
@@ -67,6 +69,10 @@ APP.TttView = Backbone.View.extend({
       if(this.fieldView.checkCellLines(APP.compMark) == APP.compMark) {
         this.stopGame('Вы проиграли');
       }     
+
+      if(this.stepsCollection.length >= 9) {
+        this.stopGame('Ничья');
+      }ж       
   },
 
   addStep: function(mark, xCoord, yCoord) {  
