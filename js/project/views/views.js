@@ -36,12 +36,7 @@ APP.TttView = Backbone.View.extend({
       cellModel.set({mark: 1});
       cellView.render();
 
-      this.stepsCollection.push({
-        num: this.stepNum++,
-        xCoord: cellXcoord,
-        yCoord: cellYcoord,
-        mark: cellYcoord,
-      });
+      this.addStep(1, cellXcoord, cellYcoord);
 
       this.compStep();
     } else {
@@ -52,22 +47,28 @@ APP.TttView = Backbone.View.extend({
   compStep: function() {  
     var emptyCells = this.fieldView.cellCollection.where({mark: 0});
 
-    if(emptyCells.length == 0) {  console.log('end');
-      return; 
-    };
+    if(emptyCells.length == 0) { return };
 
     var randCell = APP.helper.randomIntFromZero(emptyCells.length),
         emptyCellModel = emptyCells[randCell],
         emptyCellXcoord = emptyCellModel.get('xCoord'),
         emptyCellYcoord = emptyCellModel.get('yCoord'),
-        emptyCellMark = emptyCellModel.get('mark'),
         emptyCellView = this.fieldView.cellsViewsArr[emptyCellYcoord][emptyCellXcoord];
+
+    this.addStep(-1, emptyCellXcoord, emptyCellYcoord);
 
     emptyCellModel.set({mark: -1});
     emptyCellView.render();
-
-
        
+  },
+
+  addStep: function(playerMark, xCoord, yCoord) {  
+    this.stepsCollection.push({
+      num: this.stepNum++,
+      xCoord: xCoord,
+      yCoord: yCoord,
+      mark: playerMark,
+    }); 
   }
 
 });
