@@ -49,8 +49,25 @@ APP.TttView = Backbone.View.extend({
     };
   },
 
-  compStep: function() {  console.log('cs', this.stepsCollection)
+  compStep: function() {  
+    var emptyCells = this.fieldView.cellCollection.where({mark: 0});
 
+    if(emptyCells.length == 0) {  console.log('end');
+      return; 
+    };
+
+    var randCell = APP.helper.randomIntFromZero(emptyCells.length),
+        emptyCellModel = emptyCells[randCell],
+        emptyCellXcoord = emptyCellModel.get('xCoord'),
+        emptyCellYcoord = emptyCellModel.get('yCoord'),
+        emptyCellMark = emptyCellModel.get('mark'),
+        emptyCellView = this.fieldView.cellsViewsArr[emptyCellYcoord][emptyCellXcoord];
+
+    emptyCellModel.set({mark: -1});
+    emptyCellView.render();
+
+
+       
   }
 
 });
