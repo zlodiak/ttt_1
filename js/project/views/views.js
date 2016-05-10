@@ -38,13 +38,7 @@ APP.TttView = Backbone.View.extend({
 
       this.addStep(APP.playerMark, cellXcoord, cellYcoord);
 
-      if(this.fieldView.checkCellLines(APP.playerMark) == APP.playerMark) {
-        this.stopGame('Вы выиграли');
-      } else if(this.stepsCollection.length >= 9) {
-        this.stopGame('Ничья');
-      } else { 
-        this.compStep(); 
-      };            
+      if(this.winnerCheck(APP.playerMark) == undefined) { this.compStep() };            
     } else {
       console.log('глаза протри и смотри куда ходишь')
     };
@@ -66,13 +60,7 @@ APP.TttView = Backbone.View.extend({
     emptyCellModel.set({mark: APP.compMark});
     emptyCellView.render();
 
-      if(this.fieldView.checkCellLines(APP.compMark) == APP.compMark) {
-        this.stopGame('Вы проиграли');
-      }     
-
-      if(this.stepsCollection.length >= 9) {
-        this.stopGame('Ничья');
-      }ж       
+    this.winnerCheck(APP.compMark);
   },
 
   addStep: function(mark, xCoord, yCoord) {  
@@ -84,10 +72,28 @@ APP.TttView = Backbone.View.extend({
     }); 
   },
 
-  stopGame: function(msg) { 
-    alert(msg);
-    window.location.reload();
-  }
+  winnerCheck: function(mark) { 
+    var msg;
+
+    if(this.fieldView.checkCellLines(mark) == APP.playerMark) {
+      msg = 'Вы выиграли';
+    };
+
+    if(this.fieldView.checkCellLines(mark) == APP.compMark) {
+      msg = 'Вы проиграли';
+    };  
+
+    if(this.stepsCollection.length >= 9) {
+      msg = 'Ничья';
+    };  
+
+    if(msg) { 
+      alert(msg); 
+      window.location.reload();
+    } else {
+      return undefined;
+    };
+  }  
 
 });
 

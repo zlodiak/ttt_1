@@ -7,6 +7,7 @@
   window.APP = window.APP || {};
   APP.playerMark = 1;    
   APP.compMark = -1;     
+  APP.standoffMark = 0;     
 </script>
 
 <script src="js/project/models/models.js"></script> 
