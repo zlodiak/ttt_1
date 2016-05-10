@@ -5,6 +5,8 @@ APP.TttView = Backbone.View.extend({
 
     this.stepsCollection = [];
     this.stepNum = 0;    
+    APP.playerMark = 1;    
+    APP.compMark = -1;    
 
     this.render();
   },    
@@ -33,10 +35,10 @@ APP.TttView = Backbone.View.extend({
         cellView = this.fieldView.cellsViewsArr[cellYcoord][cellXcoord];
 
     if(cellMark == 0) {
-      cellModel.set({mark: 1});
+      cellModel.set({mark: APP.playerMark});
       cellView.render();
 
-      this.addStep(1, cellXcoord, cellYcoord);
+      this.addStep(APP.playerMark, cellXcoord, cellYcoord);
 
       this.compStep();
     } else {
@@ -55,9 +57,9 @@ APP.TttView = Backbone.View.extend({
         emptyCellYcoord = emptyCellModel.get('yCoord'),
         emptyCellView = this.fieldView.cellsViewsArr[emptyCellYcoord][emptyCellXcoord];
 
-    this.addStep(-1, emptyCellXcoord, emptyCellYcoord);
+    this.addStep(APP.compMark, emptyCellXcoord, emptyCellYcoord);
 
-    emptyCellModel.set({mark: -1});
+    emptyCellModel.set({mark: APP.compMark});
     emptyCellView.render();
        
   },
@@ -69,6 +71,8 @@ APP.TttView = Backbone.View.extend({
       yCoord: yCoord,
       mark: playerMark,
     }); 
+
+    //console.log(this.stepsCollection);
   }
 
 });
@@ -140,9 +144,9 @@ APP.CellView = Backbone.View.extend({
   _markDefine: function () {    
     var cellMark;
 
-    if(this.model.get('mark') == -1) {
+    if(this.model.get('mark') == APP.compMark) {
       cellMark = 'zero_mark';
-    } else if(this.model.get('mark') == 1) {
+    } else if(this.model.get('mark') == APP.playerMark) {
       cellMark = 'cross_mark';
     };
 
